@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Пример php функции для загрузки sql файла в базу построчно
+ */
 //ini_set("memory_limit", "512M");
 
 $arStartSkipSymbols = ["--","/*"];

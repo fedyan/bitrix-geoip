@@ -1,5 +1,5 @@
 <?php
-namespace Itsfera\Geoip;
+namespace Bit\Geoip;
 class Api {
     protected $DB;
 
@@ -9,7 +9,6 @@ class Api {
 
         if ( !$this->checkTables() ) {
             echo "Tables not exists";
-            //Throw New \Exception("Tables not exists");
             return false;
         }
 
@@ -18,9 +17,7 @@ class Api {
     public function getCityByIp()
     {
         $ip = $_SERVER['REMOTE_ADDR'];
-        //$ip = '95.129.56.55';
         return $this->findCity($ip);
-
     }
 
     protected function checkTables()
@@ -39,11 +36,7 @@ class Api {
 
     protected function findCity($ip)
     {
-
-        // IP-адрес, который нужно проверить
-        //$ip = "79.134.219.2";
-
-// Преобразуем IP в число
+        // Преобразуем IP в число
         $int = sprintf("%u", ip2long($ip));
 
         $country_name = "";
@@ -52,7 +45,7 @@ class Api {
         $city_name = "";
         $city_id = 0;
 
-// Ищем по российским и украинским городам
+        // Ищем по российским и украинским городам
         $sql = "select * from (select * from net_ru where begin_ip<=$int order by begin_ip desc limit 1) as t where end_ip>=$int";
         $results = $this->DB->Query( $sql );
 
@@ -71,7 +64,7 @@ class Api {
             }
         }
 
-// Если не нашли - ищем страну и город по всему миру
+        // Если не нашли - ищем страну и город по всему миру
         if (!$city_id) {
             // Ищем европейскую страну
             $sql = "select * from (select * from net_euro where begin_ip<=$int order by begin_ip desc limit 1) as t where end_ip>=$int";
@@ -103,7 +96,7 @@ class Api {
             }
         }
 
-// Выводим результат поиска
+        // Выводим результат поиска
         $country_name = "";
         if ($country_id !== 0) {
             // Название страны
